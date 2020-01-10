@@ -1,8 +1,7 @@
 import sys
 
-from PyQt5.QtCore import QCoreApplication, QPoint
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QDesktopWidget, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMessageBox, QMainWindow, QAction
 
 
 class MainWindow(QMainWindow):
@@ -15,13 +14,24 @@ class MainWindow(QMainWindow):
         self.resize(300, 220)
         self.center()
 
+        self.statusBar().showMessage("un login")
+
         self.setWindowTitle("OneDrive")
         self.setWindowIcon(QIcon('OneDrive.png'))
 
-        close_btn = QPushButton('close', self)
-        close_btn.resize(close_btn.sizeHint())
-        close_btn.move(self.width()/2, self.height()/2)
-        close_btn.clicked.connect(QCoreApplication.instance().quit)
+        exit_action = QAction(QIcon('OneDrive.png'), '&Exit', self)
+        exit_action.setShortcut('Super+Q')
+        exit_action.setStatusTip('Exit OneDrive')
+        exit_action.triggered().connect(QApplication.quit)
+
+        menu_bar = self.menuBar()
+        file_menu = menu_bar.addMenu('&File')
+        file_menu.addAction(exit_action)
+
+        # close_btn = QPushButton('close', self)
+        # close_btn.resize(close_btn.sizeHint())
+        # close_btn.move(self.width()/2, self.height()/2)
+        # close_btn.clicked.connect(QCoreApplication.instance().quit)
 
         self.show()
 
